@@ -1,0 +1,658 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/AcuantResponse",
+  "definitions": {
+    "AcuantResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Alerts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Alert"
+          }
+        },
+        "AuthenticationSensitivity": {
+          "type": "integer"
+        },
+        "Biographic": {
+          "$ref": "#/definitions/Biographic"
+        },
+        "Classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "DataFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Field"
+          }
+        },
+        "Device": {
+          "$ref": "#/definitions/Device"
+        },
+        "EngineVersion": {
+          "type": "string"
+        },
+        "Fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Field"
+          }
+        },
+        "Images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Image"
+          }
+        },
+        "InstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "LibraryVersion": {
+          "type": "string"
+        },
+        "ProcessMode": {
+          "type": "integer"
+        },
+        "Regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Region"
+          }
+        },
+        "Result": {
+          "type": "integer"
+        },
+        "Subscription": {
+          "$ref": "#/definitions/Subscription"
+        },
+        "TamperResult": {
+          "type": "integer"
+        },
+        "TamperSensitivity": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Alerts",
+        "AuthenticationSensitivity",
+        "Biographic",
+        "Classification",
+        "DataFields",
+        "Device",
+        "EngineVersion",
+        "Fields",
+        "Images",
+        "InstanceId",
+        "LibraryVersion",
+        "ProcessMode",
+        "Regions",
+        "Result",
+        "Subscription",
+        "TamperResult",
+        "TamperSensitivity"
+      ],
+      "title": "Welcome4"
+    },
+    "Alert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Actions": {
+          "type": "string"
+        },
+        "DataFieldReferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Disposition": {
+          "type": "string"
+        },
+        "FieldReferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ImageReferences": {
+          "type": "array",
+          "items": {}
+        },
+        "Information": {
+          "type": "string"
+        },
+        "Key": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "RegionReferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "Result": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Actions",
+        "DataFieldReferences",
+        "Description",
+        "Disposition",
+        "FieldReferences",
+        "Id",
+        "ImageReferences",
+        "Information",
+        "Key",
+        "Name",
+        "RegionReferences",
+        "Result"
+      ],
+      "title": "Alert"
+    },
+    "Biographic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Age": {
+          "type": "integer"
+        },
+        "BirthDate": {
+          "type": "string"
+        },
+        "ExpirationDate": {
+          "type": "string"
+        },
+        "FullName": {
+          "type": "string"
+        },
+        "Gender": {
+          "type": "integer"
+        },
+        "Photo": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": [
+            "https"
+          ]
+        }
+      },
+      "required": [
+        "Age",
+        "BirthDate",
+        "ExpirationDate",
+        "FullName",
+        "Gender",
+        "Photo"
+      ],
+      "title": "Biographic"
+    },
+    "Classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ClassificationDetails": {
+          "$ref": "#/definitions/ClassificationDetails"
+        },
+        "Mode": {
+          "type": "integer"
+        },
+        "OrientationChanged": {
+          "type": "boolean"
+        },
+        "PresentationChanged": {
+          "type": "boolean"
+        },
+        "Type": {
+          "$ref": "#/definitions/Type"
+        }
+      },
+      "required": [
+        "ClassificationDetails",
+        "Mode",
+        "OrientationChanged",
+        "PresentationChanged",
+        "Type"
+      ],
+      "title": "Classification"
+    },
+    "ClassificationDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Back": {
+          "$ref": "#/definitions/Type"
+        },
+        "Front": {
+          "$ref": "#/definitions/Type"
+        }
+      },
+      "required": [
+        "Back",
+        "Front"
+      ],
+      "title": "ClassificationDetails"
+    },
+    "Type": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Class": {
+          "type": "integer"
+        },
+        "ClassCode": {
+          "type": "null"
+        },
+        "ClassName": {
+          "type": "string"
+        },
+        "CountryCode": {
+          "type": "string"
+        },
+        "DocumentDataTypes": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "GeographicRegions": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "IsGeneric": {
+          "type": "boolean"
+        },
+        "Issue": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "IssueType": {
+          "type": "string"
+        },
+        "IssuerCode": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "IssuerName": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "IssuerType": {
+          "type": "integer"
+        },
+        "KeesingCode": {
+          "type": "null"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "ReferenceDocumentDataTypes": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "Size": {
+          "type": "integer"
+        },
+        "SupportedImages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedImage"
+          }
+        }
+      },
+      "required": [
+        "Class",
+        "ClassCode",
+        "ClassName",
+        "CountryCode",
+        "DocumentDataTypes",
+        "GeographicRegions",
+        "Id",
+        "IsGeneric",
+        "Issue",
+        "IssueType",
+        "IssuerCode",
+        "IssuerName",
+        "IssuerType",
+        "KeesingCode",
+        "Name",
+        "ReferenceDocumentDataTypes",
+        "Size",
+        "SupportedImages"
+      ],
+      "title": "Type"
+    },
+    "SupportedImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Light": {
+          "type": "integer"
+        },
+        "Side": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Light",
+        "Side"
+      ],
+      "title": "SupportedImage"
+    },
+    "Field": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "DataSource": {
+          "type": "integer"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "IsImage": {
+          "type": "boolean"
+        },
+        "Key": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "RegionOfInterest": {
+          "$ref": "#/definitions/RegionOfInterest"
+        },
+        "RegionReference": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "Reliability": {
+          "type": "number"
+        },
+        "Type": {
+          "$ref": "#/definitions/TypeEnum"
+        },
+        "Value": {
+          "type": "string",
+          "qt-uri-protocols": [
+            "https"
+          ]
+        },
+        "DataFieldReferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "DataSource",
+        "Description",
+        "Id",
+        "IsImage",
+        "Key",
+        "Name",
+        "RegionReference",
+        "Type",
+        "Value"
+      ],
+      "title": "Field"
+    },
+    "RegionOfInterest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "height": {
+          "type": "integer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "height",
+        "width",
+        "x",
+        "y"
+      ],
+      "title": "RegionOfInterest"
+    },
+    "Device": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "HasContactlessChipReader": {
+          "type": "boolean"
+        },
+        "HasMagneticStripeReader": {
+          "type": "boolean"
+        },
+        "SerialNumber": {
+          "type": "string"
+        },
+        "Type": {
+          "$ref": "#/definitions/DeviceType"
+        }
+      },
+      "required": [
+        "HasContactlessChipReader",
+        "HasMagneticStripeReader",
+        "SerialNumber",
+        "Type"
+      ],
+      "title": "Device"
+    },
+    "DeviceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Manufacturer": {
+          "type": "string"
+        },
+        "Model": {
+          "type": "string"
+        },
+        "SensorType": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Manufacturer",
+        "Model",
+        "SensorType"
+      ],
+      "title": "DeviceType"
+    },
+    "Image": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "GlareMetric": {
+          "type": "integer"
+        },
+        "HorizontalResolution": {
+          "type": "integer"
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "IsCropped": {
+          "type": "boolean"
+        },
+        "IsTampered": {
+          "type": "boolean"
+        },
+        "Light": {
+          "type": "integer"
+        },
+        "MimeType": {
+          "type": "string"
+        },
+        "SharpnessMetric": {
+          "type": "integer"
+        },
+        "Side": {
+          "type": "integer"
+        },
+        "VerticalResolution": {
+          "type": "integer"
+        },
+        "Uri" : {
+          "type": "string"
+        }
+      },
+      "required": [
+        "GlareMetric",
+        "HorizontalResolution",
+        "Id",
+        "IsCropped",
+        "IsTampered",
+        "Light",
+        "MimeType",
+        "SharpnessMetric",
+        "Side",
+        "VerticalResolution"
+      ],
+      "title": "Image"
+    },
+    "Region": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "DocumentElement": {
+          "type": "integer"
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ImageReference": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "Key": {
+          "type": "string"
+        },
+        "Rectangle": {
+          "$ref": "#/definitions/RegionOfInterest"
+        }
+      },
+      "required": [
+        "DocumentElement",
+        "Id",
+        "ImageReference",
+        "Key",
+        "Rectangle"
+      ],
+      "title": "Region"
+    },
+    "Subscription": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "DocumentProcessMode": {
+          "type": "integer"
+        },
+        "Id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "IsDevelopment": {
+          "type": "boolean"
+        },
+        "IsTrial": {
+          "type": "boolean"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "StorePII": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "DocumentProcessMode",
+        "Id",
+        "IsActive",
+        "IsDevelopment",
+        "IsTrial",
+        "Name",
+        "StorePII"
+      ],
+      "title": "Subscription"
+    },
+    "TypeEnum": {
+      "type": "string",
+      "enum": [
+        "datetime",
+        "string",
+        "uri"
+      ],
+      "title": "TypeEnum"
+    }
+  }
+}

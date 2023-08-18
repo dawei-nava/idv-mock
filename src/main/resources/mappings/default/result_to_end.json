@@ -1,0 +1,12 @@
+{
+  "scenarioName": "default",
+  "requiredScenarioState": "Result",
+  "newScenarioState": "End",
+  "request": {
+    "method": "GET",
+    "urlPattern": "AssureIDService/Document/.+"
+  },
+  "response": {
+    "status": 200
+  }
+}

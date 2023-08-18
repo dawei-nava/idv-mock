@@ -1,0 +1,13 @@
+{
+  "scenarioName": "default",
+  "requiredScenarioState": "Started",
+  "newScenarioState": "Upload",
+  "request": {
+    "method": "POST",
+    "url": "AssureIDService/Document/Instance"
+  },
+  "response": {
+    "status": 200,
+    "body": "{{randomValue type='UUID'}}"
+  }
+}

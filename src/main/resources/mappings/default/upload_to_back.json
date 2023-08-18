@@ -1,0 +1,17 @@
+{
+  "scenarioName": "default",
+  "requiredScenarioState": "Upload",
+  "newScenarioState": "Back",
+  "request": {
+    "method": "POST",
+    "urlPattern": "AssureIDService/Document/.+/Image?side=(front|back)&light=0",
+    "queryParameters": {
+      "side": {
+        "equalTo": "front"
+      }
+    }
+  },
+  "response": {
+    "status": 200
+  }
+}
