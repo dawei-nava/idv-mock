@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Getter
@@ -27,14 +28,14 @@ public class ChainingResponseTransformer implements ResponseTransformer{
     this.transformerList.add(transformer);
   }
   @Override
-  public AcuantResponse transform(AcuantResponse response) throws Exception {
+  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws Exception {
     if(CollectionUtils.isEmpty(this.transformerList)) {
       LOGGER.debug("No transformers found, return original result.");
       return response;
     }
 
     for (ResponseTransformer t : this.transformerList) {
-      response = t.transform(response);
+      response = t.transform(response, context);
     }
     return response;
   }

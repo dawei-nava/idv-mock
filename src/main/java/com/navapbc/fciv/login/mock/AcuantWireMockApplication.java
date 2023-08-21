@@ -1,30 +1,30 @@
 package com.navapbc.fciv.login.mock;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.contract.wiremock.WireMockConfiguration;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 @SpringBootApplication
 @EnableConfigurationProperties
-public class AcuantWireMockApplication {
+@Slf4j
+public class AcuantWireMockApplication implements ApplicationListener<ContextRefreshedEvent> {
   public static void main(String[] args) {
     SpringApplication.run(AcuantWireMockApplication.class, args);
   }
 
-
-
-//  @Bean
-//  public Options wireMockOptions() throws IOException {
-//
-//    final WireMockConfiguration options = WireMockSpring.options();
-//    options.port(6363);
-//
-//    return options;
-//  }
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    LOGGER.debug("Initialized context");
+  }
 
 }
 

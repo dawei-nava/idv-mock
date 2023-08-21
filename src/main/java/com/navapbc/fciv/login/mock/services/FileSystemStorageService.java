@@ -1,5 +1,6 @@
 package com.navapbc.fciv.login.mock.services;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 @Service
+@Getter
 public class FileSystemStorageService implements StorageService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FileSystemStorageService.class);

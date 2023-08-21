@@ -1,10 +1,12 @@
 package com.navapbc.fciv.login.mock.services.acuant.scenarios;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
 import com.navapbc.fciv.login.mock.util.AcuantResponseTemplateLoader;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import org.junit.jupiter.api.Assertions;
@@ -12,9 +14,11 @@ import org.junit.jupiter.api.Test;
 
 class OGNLResponseTransformerTest {
 
+  private AcuantResponseTemplateLoader loader =
+      new AcuantResponseTemplateLoader(new ObjectMapper());
+
   @Test
   void transform() throws Exception {
-    AcuantResponseTemplateLoader loader = new AcuantResponseTemplateLoader();
     AcuantResponse response = loader.load();
 
     int original =
@@ -26,9 +30,10 @@ class OGNLResponseTransformerTest {
     Assertions.assertNotEquals(-10, original);
 
     OGNLResponseTransformer transformer = new OGNLResponseTransformer();
-    transformer.setOgnlExpression(
-        "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10");
-    transformer.transform(response);
+    Map<String, Object> transformerContext = new HashMap<>();
+    transformerContext.put(
+        "ognlExpression", "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10");
+    transformer.transform(response, transformerContext);
 
     int result =
         response.getAlerts().stream()
@@ -40,17 +45,18 @@ class OGNLResponseTransformerTest {
   }
 
   @Test
-  void transformComplex(){
-    AcuantResponseTemplateLoader loader = new AcuantResponseTemplateLoader();
+  void transformComplex() {
     AcuantResponse response = loader.load();
 
     OGNLResponseTransformer transformer = new OGNLResponseTransformer();
-    transformer.setOgnlExpression("#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result");
-    Assertions.assertDoesNotThrow(() -> transformer.transform(response));
+    Map<String, Object> transformerContext = new HashMap<>();
+    transformerContext.put(
+        "ognlExpression", "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result");
+    Assertions.assertDoesNotThrow(() -> transformer.transform(response, transformerContext));
   }
 
   @Test
-    /* Demonstrate usage of OGNL expression */
+  /* Demonstrate usage of OGNL expression */
   void test() throws Exception {
     String expression =
         "#@java.util.LinkedHashMap@{ \"foo\" : \"foo value\", \"bar\" : \"bar value\" }";

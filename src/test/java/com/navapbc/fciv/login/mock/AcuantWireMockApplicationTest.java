@@ -19,8 +19,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest(properties = "app.baseUrl=http://localhost:6063", webEnvironment = WebEnvironment.NONE)
-@AutoConfigureWireMock
+@SpringBootTest(properties = "app.baseUrl=http://localhost:6363", webEnvironment = WebEnvironment.NONE)
 public class AcuantWireMockApplicationTest {
 
   @Autowired
