@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class GetResultRequestRequestFilter extends StubRequestFilter {
   private StorageService storageService;
   private ObjectMapper mapper;
 
-  private Pattern pattern = Pattern.compile("/AssureIDService/Document/([^/].+)");
+  private Pattern pattern = Pattern.compile("/AssureIDService/Document/([^/]+)");
 
 
   @Autowired
@@ -42,18 +43,25 @@ public class GetResultRequestRequestFilter extends StubRequestFilter {
   @Override
   public RequestFilterAction filter(Request request) {
     try {
+      String requestMethod = request.getMethod().toString();
+      LOGGER.debug("Request method = {}", requestMethod);
       String url = request.getUrl();
+      LOGGER.debug("request : {}", url);
       String instanceId = getInstanceId(url);
+      LOGGER.debug("Instance id: {}", instanceId);
+      if(!"Get".equalsIgnoreCase(requestMethod) ||! StringUtils.isNotBlank(instanceId))  {
+        return RequestFilterAction.continueWith(request);
+      }
       String ognlExpression = getImagePayload(instanceId).getOnglExpression();
+      LOGGER.debug("Set X-Ognl-Expression: {}", ognlExpression);
       Request newRequest =
           RequestWrapper.create()
-              .transformHeader(
-                  "X-Ognl-Expression", exitingValue -> Collections.singletonList(ognlExpression))
+              .addHeader("X-Ognl-Expression", ognlExpression)
               .wrap(request);
-
+      LOGGER.debug("New request header: {}", newRequest.getAllHeaderKeys());
       return RequestFilterAction.continueWith(newRequest);
     } catch (Exception e) {
-      LOGGER.debug("Error filtering request: {}", e.getMessage());
+      LOGGER.debug("Error filtering request: {}", e);
     }
     return RequestFilterAction.continueWith(request);
   }
@@ -65,8 +73,10 @@ public class GetResultRequestRequestFilter extends StubRequestFilter {
 
 
   private String getInstanceId(String url) {
+    LOGGER.debug("Url:### ",url);
     Matcher m = pattern.matcher(url);
-    return m.group();
+    m.find();
+    return m.group(1);
   }
 
   private ImagePayload getImagePayload(String instanceId) throws IOException {

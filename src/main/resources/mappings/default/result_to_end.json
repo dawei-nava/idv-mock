@@ -4,9 +4,13 @@
   "newScenarioState": "End",
   "request": {
     "method": "GET",
-    "urlPattern": "AssureIDService/Document/.+"
+    "urlPattern": "/AssureIDService/Document/[\\S]+",
+    "customMatcher": {
+      "name": "result-request-matcher"
+    }
   },
   "response": {
-    "status": 200
+    "status": 200,
+    "transformers": ["response-template", "get-result-response-definition-transformer"]
   }
 }

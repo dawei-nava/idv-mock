@@ -3,10 +3,10 @@
   "requiredScenarioState": "Back",
   "request": {
     "method": "POST",
-    "urlPattern": "AssureIDService/Document/.+/Image?side=(front|back)&light=0",
+    "urlPattern": "/AssureIDService/Document/[^/]+/Image.side=back&light=0",
     "queryParameters": {
       "side": {
-        "equalTo": "front"
+        "equalTo": "back"
       }
     }
   },

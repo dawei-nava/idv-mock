@@ -4,10 +4,11 @@
   "newScenarioState": "Upload",
   "request": {
     "method": "POST",
-    "url": "AssureIDService/Document/Instance"
+    "urlPattern": "/AssureIDService/Document/Instance"
   },
   "response": {
     "status": 200,
-    "body": "{{randomValue type='UUID'}}"
+    "body": "{{randomValue type='UUID'}}",
+    "transformers": ["response-template"]
   }
 }

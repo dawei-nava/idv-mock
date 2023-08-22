@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.extension.requestfilter.StubRequestFilter
 import com.github.tomakehurst.wiremock.http.Request;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.navapbc.fciv.login.mock.services.StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import java.util.regex.Pattern;
 
 
 @Component
+@Slf4j
 public class PostBodyRequestFilter extends StubRequestFilter {
-  private static final Logger LOGGER = LoggerFactory.getLogger(PostBodyRequestFilter.class);
   private static final String NAME = "com.navapbc.fciv.login.mock.stubs.filter.PostBodyRequestFilter";
 
-  private final Pattern instanceIdPattern = Pattern.compile("AssureIDService/Document/([^/]+)/Image");
+  private final Pattern instanceIdPattern = Pattern.compile("/AssureIDService/Document/([^/]+)/Image.+");
 
   private final StorageService storageService;
 
@@ -34,10 +35,11 @@ public class PostBodyRequestFilter extends StubRequestFilter {
     if(!request.getMethod().isOneOf(RequestMethod.POST)) {
       return RequestFilterAction.continueWith(request);
     }
-    if(!request.queryParameter("side").isPresent() || !request.getUrl().matches("AssureIDService/Document/.+/Image")) {
+    if(!request.queryParameter("side").isPresent() || !request.getUrl().matches("/AssureIDService/Document/[^/]+/Image.+")) {
       LOGGER.debug("request does not matching image post request");
       return RequestFilterAction.continueWith(request);
     }
+    LOGGER.debug("request is an image upload request");
     try {
       LOGGER.debug("Request is image upload");
       String side = request.queryParameter("side").firstValue();
@@ -59,8 +61,10 @@ public class PostBodyRequestFilter extends StubRequestFilter {
   }
 
 
-  private String getInstanceId(String url) {
+  protected String getInstanceId(String url) {
+    LOGGER.debug("Getting instance id from url {}",url);
     Matcher m = instanceIdPattern.matcher(url);
-    return m.group();
+    m.find();
+    return m.group(1);
   }
 }

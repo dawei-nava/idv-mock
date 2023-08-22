@@ -1,0 +1,5 @@
+POST http://localhost:6363/AssureIDService/Document/Instance
+Content-Type: application/json
+# {%
+# instance_id = response.body
+#%}.

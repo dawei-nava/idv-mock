@@ -1,9 +1,14 @@
 package com.navapbc.fciv.login.mock;
 
+import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
+import com.github.tomakehurst.wiremock.common.Slf4jNotifier;
 import com.github.tomakehurst.wiremock.core.Options;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import com.navapbc.fciv.login.mock.stubs.filter.GetResultRequestRequestFilter;
 import com.navapbc.fciv.login.mock.stubs.filter.PostBodyRequestFilter;
+import com.navapbc.fciv.login.mock.stubs.matcher.ResultRequestMatcher;
+import com.navapbc.fciv.login.mock.stubs.transformer.GetResultResponseDefinitionTransformer;
 import com.navapbc.fciv.login.mock.util.EnableWireMockConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +33,11 @@ public class ApplicationConfig {
 
   @Autowired private PostBodyRequestFilter postBodyRequestFilter;
 
+  @Autowired private ResultRequestMatcher resultRequestMatcher;
+
+  @Autowired private GetResultRequestRequestFilter getResultRequestRequestFilter;
+
+  @Autowired private GetResultResponseDefinitionTransformer getResultResponseDefinitionTransformer;
 
   @Bean
   public RestTemplate restTemplate() {
@@ -40,7 +50,9 @@ public class ApplicationConfig {
       @Override
       public void customize(WireMockConfiguration config) {
         LOGGER.debug("Customizing configuration");
-        config.extensions(new ResponseTemplateTransformer(false), postBodyRequestFilter);
+        config.extensions(new ResponseTemplateTransformer(false),
+            postBodyRequestFilter, resultRequestMatcher, getResultRequestRequestFilter, getResultResponseDefinitionTransformer);
+        config.notifier(new Slf4jNotifier(true));
       }
     };
   }

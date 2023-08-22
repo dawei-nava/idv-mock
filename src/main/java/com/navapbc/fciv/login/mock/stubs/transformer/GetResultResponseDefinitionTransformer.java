@@ -1,5 +1,6 @@
 package com.navapbc.fciv.login.mock.stubs.transformer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.common.FileSource;
@@ -32,6 +33,13 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
   public GetResultResponseDefinitionTransformer(
       AcuantResponseTemplateLoader loader, ApplicationContext context, ObjectMapper mapper) {
     this.loader = loader;
+    this.context = context;
+    this.mapper = mapper;
+  }
+
+  @Override
+  public boolean applyGlobally() {
+    return false;
   }
 
   @Override
@@ -46,12 +54,18 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
     if (transformer != null) {
       AcuantResponse template = loader.getTemplate();
       try {
+        LOGGER.trace("Template: {}",mapper.writeValueAsString(template));
+      } catch (JsonProcessingException e) {
+        LOGGER.warn("Error to serialize template: {}", e.getMessage());
+      }
+      try {
         Map<String, Object> transformerContext = new HashMap<>();
         transformerContext.put("ognlExpression", ognlExpression);
         AcuantResponse result = transformer.transform(template, transformerContext);
         return new ResponseDefinitionBuilder()
             .withStatus(200)
-            .withBody(mapper.writeValueAsString(request))
+            .withHeader("Content-Type", "application/json")
+            .withBody(mapper.writeValueAsString(result))
             .build();
       } catch (Exception e) {
         LOGGER.debug("Exception wile transform template response");
