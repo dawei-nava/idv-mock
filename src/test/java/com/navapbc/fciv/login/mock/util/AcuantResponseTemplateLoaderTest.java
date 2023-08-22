@@ -20,7 +20,7 @@ class AcuantResponseTemplateLoaderTest {
 
   @Test
   void template() {
-    AcuantResponse result = loader.load();
+    AcuantResponse result = loader.getTemplate();
     Assertions.assertNotNull(result);
   }
 }

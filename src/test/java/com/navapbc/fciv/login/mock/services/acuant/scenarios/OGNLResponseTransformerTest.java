@@ -10,16 +10,31 @@ import java.util.Map;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
+import org.springframework.test.context.event.annotation.BeforeTestExecution;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 
 class OGNLResponseTransformerTest {
 
   private AcuantResponseTemplateLoader loader =
       new AcuantResponseTemplateLoader(new ObjectMapper());
 
+  @BeforeEach
+  public void setUp() {
+    try {
+      loader.afterPropertiesSet();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
   @Test
   void transform() throws Exception {
-    AcuantResponse response = loader.load();
+    AcuantResponse response = loader.getTemplate();
 
     int original =
         response.getAlerts().stream()
@@ -46,7 +61,7 @@ class OGNLResponseTransformerTest {
 
   @Test
   void transformComplex() {
-    AcuantResponse response = loader.load();
+    AcuantResponse response = loader.getTemplate();
 
     OGNLResponseTransformer transformer = new OGNLResponseTransformer();
     Map<String, Object> transformerContext = new HashMap<>();

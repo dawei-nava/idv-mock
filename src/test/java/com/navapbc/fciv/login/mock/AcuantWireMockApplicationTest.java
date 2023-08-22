@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(properties = "app.baseUrl=http://localhost:6363", webEnvironment = WebEnvironment.NONE)
-public class AcuantWireMockApplicationTest {
+class AcuantWireMockApplicationTest {
 
   @Autowired
   private RestTemplate restTemplate;

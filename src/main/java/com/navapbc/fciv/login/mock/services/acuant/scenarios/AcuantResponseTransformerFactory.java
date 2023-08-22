@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 @Slf4j
 public class AcuantResponseTransformerFactory {
 
+  private AcuantResponseTransformerFactory() {}
 
   private static final Map<String, Class<? extends ResponseTransformer>> instances = new HashMap<>();
 

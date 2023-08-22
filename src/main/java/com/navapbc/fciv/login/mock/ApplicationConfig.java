@@ -1,9 +1,6 @@
 package com.navapbc.fciv.login.mock;
 
-import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
 import com.github.tomakehurst.wiremock.common.Slf4jNotifier;
-import com.github.tomakehurst.wiremock.core.Options;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import com.navapbc.fciv.login.mock.stubs.filter.GetResultRequestRequestFilter;
 import com.navapbc.fciv.login.mock.stubs.filter.PostBodyRequestFilter;
@@ -12,16 +9,12 @@ import com.navapbc.fciv.login.mock.stubs.transformer.GetResultResponseDefinition
 import com.navapbc.fciv.login.mock.util.EnableWireMockConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.contract.wiremock.WireMockConfigurationCustomizer;
-import org.springframework.cloud.contract.wiremock.WireMockSpring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 @Configuration
 @EnableConfigurationProperties
@@ -31,29 +24,24 @@ import java.io.IOException;
 public class ApplicationConfig {
   private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfig.class);
 
-  @Autowired private PostBodyRequestFilter postBodyRequestFilter;
-
-  @Autowired private ResultRequestMatcher resultRequestMatcher;
-
-  @Autowired private GetResultRequestRequestFilter getResultRequestRequestFilter;
-
-  @Autowired private GetResultResponseDefinitionTransformer getResultResponseDefinitionTransformer;
-
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
 
   @Bean
-  public WireMockConfigurationCustomizer optionsCustomizer() {
-    return new WireMockConfigurationCustomizer() {
-      @Override
-      public void customize(WireMockConfiguration config) {
-        LOGGER.debug("Customizing configuration");
-        config.extensions(new ResponseTemplateTransformer(false),
-            postBodyRequestFilter, resultRequestMatcher, getResultRequestRequestFilter, getResultResponseDefinitionTransformer);
-        config.notifier(new Slf4jNotifier(true));
-      }
+  public WireMockConfigurationCustomizer optionsCustomizer(
+      PostBodyRequestFilter postBodyRequestFilter,
+      ResultRequestMatcher resultRequestMatcher,
+      GetResultRequestRequestFilter getResultRequestRequestFilter,
+      GetResultResponseDefinitionTransformer getResultResponseDefinitionTransformer
+  ) {
+    return (config) -> {
+      LOGGER.debug("Customizing configuration");
+      config.extensions(new ResponseTemplateTransformer(false),
+          postBodyRequestFilter, resultRequestMatcher, getResultRequestRequestFilter, getResultResponseDefinitionTransformer);
+      config.notifier(new Slf4jNotifier(true));
     };
+
   }
 }

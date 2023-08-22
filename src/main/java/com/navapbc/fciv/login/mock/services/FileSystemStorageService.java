@@ -52,17 +52,15 @@ public class FileSystemStorageService implements StorageService {
       Path destinationFile = this.rootLocation.resolve(
               Paths.get(fileName))
           .normalize().toAbsolutePath();
-      LOGGER.debug("Destination path: {}", destinationFile.toString());
+      LOGGER.debug("Destination path: {}", destinationFile);
       if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
         // This is a security check
         throw new StorageException(
             "Cannot store file outside current directory.");
       }
-      LOGGER.debug("Saving file {}", destinationFile.toString());
       Files.write(destinationFile, content);
 
     } catch (IOException e) {
-      LOGGER.error("IO exception :",e);
       throw new StorageException("Failed to store file.", e);
     }
   }
