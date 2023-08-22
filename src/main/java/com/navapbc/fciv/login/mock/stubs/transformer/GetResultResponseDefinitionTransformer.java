@@ -68,7 +68,7 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
             .withBody(mapper.writeValueAsString(result))
             .build();
       } catch (Exception e) {
-        LOGGER.debug("Exception wile transform template response");
+        LOGGER.debug("Exception wile transform template response: {}", e.getMessage());
         return new ResponseDefinitionBuilder().withStatus(500).build();
       }
     } else {

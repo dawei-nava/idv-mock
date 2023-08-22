@@ -1,34 +1,22 @@
 package com.navapbc.fciv.login.mock;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
-import com.navapbc.fciv.login.mock.stubs.filter.GetResultRequestRequestFilter;
-import com.navapbc.fciv.login.mock.util.AcuantResponseTemplateLoader;
+import com.navapbc.fciv.login.mock.util.AcuantImageUploadUtil;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 @SpringBootTest(properties = "app.baseUrl=http://localhost:6363", webEnvironment = WebEnvironment.NONE)
 public class AcuantWireMockApplicationTest {
@@ -44,39 +32,32 @@ public class AcuantWireMockApplicationTest {
   private String baseUrl;
 
   @Autowired
-  WireMockServer wireMockServer;
-  @Test
-  public void contextLoads() throws Exception {
+  private WireMockServer wireMockServer;
 
-    Assertions.assertNotNull(wireMockServer);
-  }
+  @Autowired
+  private AcuantImageUploadUtil imageUploadUtil;
 
-
-  @Test
-  public void testImageUpload() throws Exception{
-    String createInstanceUrl = baseUrl+"/AssureIDService/Document/Instance";
+  @BeforeEach
+  void resetState() {
+    String createInstanceUrl = baseUrl+"/__admin/scenarios/default/state";
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> request =
-        new HttpEntity<String>("", headers);
-    String instanceId = restTemplate.postForObject(createInstanceUrl, request, String.class);
-    Assertions.assertNotNull(instanceId);
+        new HttpEntity<String>("{\"state\": \"Started\"}", headers);
+    restTemplate.put(createInstanceUrl, request);
+  }
 
-    // post front side
-    String postFrontImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=front&light=0";
-    GetResultRequestRequestFilter.ImagePayload payload = new GetResultRequestRequestFilter.ImagePayload();
-    payload.setOnglExpression("#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10");
-    request =
-          new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
-    restTemplate.postForObject(postFrontImageUrl, request, String.class);
-    // post back side
-    String postBackImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=back&light=0";
-    request =
-        new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
-    restTemplate.postForObject(postBackImageUrl, request, String.class);
+  @Test
+  void contextLoads() throws Exception {
+    Assertions.assertNotNull(wireMockServer);
+  }
 
-    String getResultsUrl = baseUrl+"/AssureIDService/Document/"+instanceId;
-    AcuantResponse response = restTemplate.getForObject(getResultsUrl, AcuantResponse.class);
+  @Test
+  void testExpiredResponse() throws Exception{
+    String createInstanceUrl = baseUrl+"/AssureIDService/Document/Instance";
+    String ognlExpression = "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=5";
+
+    AcuantResponse response = imageUploadUtil.uploadAndGetResponse(baseUrl, ognlExpression);
 
     Assertions.assertNotNull(response, "Null object returned");
     int result =
@@ -85,6 +66,16 @@ public class AcuantWireMockApplicationTest {
             .findFirst()
             .get()
             .getResult();
-    Assertions.assertEquals(-10, result);
+    Assertions.assertEquals(5, result);
   }
+
+  @Test
+  void testUnknowDocTypeResponse() throws Exception {
+    int errResult = 2;
+    String ognlExpression = "#action = #this.alerts.{? #this.key==\"Document Classification\"}[0], #this.alerts.clear, #action.result=2, #this.alerts.add(#action)";
+    AcuantResponse response = imageUploadUtil.uploadAndGetResponse(baseUrl, ognlExpression);
+    Assertions.assertEquals(1,response.getAlerts().size());
+    Assertions.assertEquals(2, response.getAlerts().get(0).getResult());
+  }
+
 }

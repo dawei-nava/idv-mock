@@ -1,7 +1,7 @@
 {
   "scenarioName": "default",
   "requiredScenarioState": "Result",
-  "newScenarioState": "End",
+  "newScenarioState": "Started",
   "request": {
     "method": "GET",
     "urlPattern": "/AssureIDService/Document/[\\S]+",
