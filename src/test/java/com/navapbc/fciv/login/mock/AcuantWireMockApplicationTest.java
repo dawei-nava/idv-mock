@@ -3,61 +3,56 @@ package com.navapbc.fciv.login.mock;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockApp;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
 import com.navapbc.fciv.login.mock.util.AcuantImageUploadUtil;
+import jakarta.servlet.ServletContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.web.context.WebApplicationContext;
 
-@SpringBootTest(properties = "app.baseUrl=http://localhost:6363", webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(classes = DocAuthWireMockApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 class AcuantWireMockApplicationTest {
 
   @Autowired
-  private RestTemplate restTemplate;
+  private TestRestTemplate restTemplate;
 
   @Autowired
   private ObjectMapper mapper;
 
 
-  @Value("${app.baseUrl}")
-  private String baseUrl;
+  @LocalServerPort
+  int randomServerPort;
 
-  @Autowired
-  private WireMockServer wireMockServer;
 
   @Autowired
   private AcuantImageUploadUtil imageUploadUtil;
 
+  @Autowired
+  WebApplicationContext webApplicationContext;
+
   @BeforeEach
   void resetState() {
-    String createInstanceUrl = baseUrl+"/__admin/scenarios/default/state";
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<String> request =
-        new HttpEntity<String>("{\"state\": \"Started\"}", headers);
-    restTemplate.put(createInstanceUrl, request);
+    ServletContext servletContext = webApplicationContext.getServletContext();
+    WireMockApp wireMockApp = (WireMockApp) servletContext.getAttribute("WireMockApp");
+    wireMockApp.resetScenario("default");
   }
 
   @Test
   void contextLoads() throws Exception {
-    Assertions.assertNotNull(wireMockServer);
   }
 
   @Test
   void testExpiredResponse() throws Exception{
-    String createInstanceUrl = baseUrl+"/AssureIDService/Document/Instance";
     String ognlExpression = "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=5";
 
-    AcuantResponse response = imageUploadUtil.uploadAndGetResponse(baseUrl, ognlExpression);
+    AcuantResponse response = imageUploadUtil.uploadAndGetResponse("http://localhost:"+randomServerPort, ognlExpression);
 
     Assertions.assertNotNull(response, "Null object returned");
     int result =
@@ -70,10 +65,9 @@ class AcuantWireMockApplicationTest {
   }
 
   @Test
-  void testUnknowDocTypeResponse() throws Exception {
-    int errResult = 2;
+  void testUnknownDocTypeResponse() throws Exception {
     String ognlExpression = "#action = #this.alerts.{? #this.key==\"Document Classification\"}[0], #this.alerts.clear, #action.result=2, #this.alerts.add(#action)";
-    AcuantResponse response = imageUploadUtil.uploadAndGetResponse(baseUrl, ognlExpression);
+    AcuantResponse response = imageUploadUtil.uploadAndGetResponse("http://localhost:"+randomServerPort, ognlExpression);
     Assertions.assertEquals(1,response.getAlerts().size());
     Assertions.assertEquals(2, response.getAlerts().get(0).getResult());
   }

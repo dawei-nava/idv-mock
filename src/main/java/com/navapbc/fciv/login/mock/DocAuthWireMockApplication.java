@@ -10,16 +10,13 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @SpringBootApplication
 @EnableConfigurationProperties
 @Slf4j
-public class AcuantWireMockApplication implements ApplicationListener<ContextRefreshedEvent> {
+public class DocAuthWireMockApplication implements ApplicationListener<ContextRefreshedEvent> {
   public static void main(String[] args) {
-    SpringApplication.run(AcuantWireMockApplication.class, args);
+    SpringApplication.run(DocAuthWireMockApplication.class, args);
   }
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
     LOGGER.debug("Initialized context");
   }
-
 }
-
-

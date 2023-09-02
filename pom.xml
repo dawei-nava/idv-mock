@@ -68,9 +68,9 @@
 <!--&lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
+            <groupId>org.wiremock</groupId>
             <artifactId>wiremock</artifactId>
-            <version>3.0.0-beta-10</version>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -90,6 +90,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-state-extension</artifactId>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -146,5 +151,12 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>github-wiremock-extension-state</id>
+            <name>WireMock Extension State Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/wiremock/wiremock-extension-state</url>
+        </repository>
+    </repositories>
 
 </project>
