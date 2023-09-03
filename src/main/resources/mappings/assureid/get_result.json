@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/AssureIDService/Document/[\\S]+"
+  },
+  "response": {
+    "status": 200,
+    "transformers": ["response-template", "get-result-response-definition-transformer"],
+    "transformerParameters": {
+      "ognlExpression": "{{jsonPath(state context=request.pathSegments.[2] property='image') '$.front' }}"
+    }
+  }
+}
