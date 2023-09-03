@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/AssureIDService/Document/Instance"
+  },
+  "response": {
+    "status": 200,
+    "body": "{{randomValue type='UUID'}}",
+    "transformers": ["response-template"]
+  },
+  "serveEventListeners": [
+    {
+      "name": "recordState",
+      "parameters": {
+        "context": "{{cut response.body ['\"']}}",
+        "state": {
+          "instanceId": "{{cut response.body ['\"']}}"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/AssureIDService/Document/[^/]+/Image.side=(front|back|0|1)&light=0"
+  },
+  "response": {
+    "status": 200
+  },
+  "serveEventListeners": [
+    {
+      "name": "recordState",
+      "parameters": {
+        "context": "{{request.pathSegments.[2]}}",
+        "state": {
+          "instanceId": "{{request.pathSegments.[2]}}",
+          "image": "{\"{{request.query.side}}\": \"{{request.body}}\"}"
+        }
+      }
+    }
+  ]
+}
