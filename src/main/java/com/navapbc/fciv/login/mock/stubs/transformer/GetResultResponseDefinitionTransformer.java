@@ -12,29 +12,23 @@ import com.navapbc.fciv.login.acuant.AcuantResponse;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.AcuantResponseTransformerFactory;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.ResponseTransformer;
 import com.navapbc.fciv.login.mock.util.AcuantResponseTemplateLoader;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 
-@Component
 @Slf4j
 public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTransformer {
 
   private AcuantResponseTemplateLoader loader;
+
   private ApplicationContext context;
 
   private ObjectMapper mapper;
 
-  @Autowired
-  public GetResultResponseDefinitionTransformer(
-      AcuantResponseTemplateLoader loader, ApplicationContext context, ObjectMapper mapper) {
-    this.loader = loader;
-    this.context = context;
-    this.mapper = mapper;
+
+  public GetResultResponseDefinitionTransformer() {
+    LOGGER.debug("Initialize transformer with Java SPI");
   }
 
   @Override
@@ -48,6 +42,9 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
       ResponseDefinition responseDefinition,
       FileSource fileSource,
       Parameters parameters) {
+    parameters.forEach((key, val)-> {
+      LOGGER.debug("Parameter {} = {}", key.toString(), val.toString());
+    });
     String ognlExpression = request.getHeader("X-Ognl-Expression");
     LOGGER.debug("OGNL expression from request header : {}", ognlExpression);
     ResponseTransformer transformer = AcuantResponseTransformerFactory.getInstance(context, "ognl");
@@ -80,4 +77,5 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
   public String getName() {
     return "get-result-response-definition-transformer";
   }
+
 }

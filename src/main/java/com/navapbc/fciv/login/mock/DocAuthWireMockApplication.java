@@ -12,6 +12,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @Slf4j
 public class DocAuthWireMockApplication implements ApplicationListener<ContextRefreshedEvent> {
   public static void main(String[] args) {
+    System.setProperty("java.util.logging.config.file", "jul.properties");
+
     SpringApplication.run(DocAuthWireMockApplication.class, args);
   }
 
