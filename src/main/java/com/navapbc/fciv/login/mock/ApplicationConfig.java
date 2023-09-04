@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.store.Store;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.AcuantResponseTransformerFactory;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.ResponseTransformer;
 import com.navapbc.fciv.login.mock.stubs.extensions.DefaultStateExtension;
-import com.navapbc.fciv.login.mock.util.EnableWireMockConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +17,6 @@ import org.wiremock.extensions.state.internal.ContextManager;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties
-@EnableWireMockConfiguration
 @ComponentScan(
     basePackages = {"com.navapbc.fciv.login.mock.services", "com.navapbc.fciv.login.mock.stubs","com.navapbc.fciv.login.mock.util" })
 public class ApplicationConfig {
@@ -35,24 +33,17 @@ public class ApplicationConfig {
 
 
   @Bean
-  Store stateStore() {
+  Store<String, Object> stateStore() {
     return new CaffeineStore();
   }
 
   @Bean
-  ContextManager contextManager(Store stateStore) {
+  ContextManager contextManager(Store<String, Object> stateStore) {
     return new ContextManager(stateStore);
   }
   @Bean
   DefaultStateExtension defaultStateExtension(ContextManager contextManager) {
-    DefaultStateExtension extension = new DefaultStateExtension(contextManager);
-    return extension;
+    return new DefaultStateExtension(contextManager);
   }
-
-//  @Bean
-//  public Options defaultOptions() {
-//    WireMockConfiguration options = WireMockConfiguration.options();
-//    //options.extensions()
-//  }
 
 }

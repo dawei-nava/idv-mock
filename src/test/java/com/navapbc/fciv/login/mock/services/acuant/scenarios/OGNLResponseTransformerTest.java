@@ -10,14 +10,9 @@ import java.util.Map;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.event.annotation.BeforeTestExecution;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.springframework.test.util.ReflectionTestUtils;
 
 class OGNLResponseTransformerTest {
 
@@ -27,6 +22,7 @@ class OGNLResponseTransformerTest {
   @BeforeEach
   public void setUp() {
     try {
+      ReflectionTestUtils.setField(loader, "templateFile", "/files/acuant/state_id/get_results_response_success.json");
       loader.afterPropertiesSet();
     } catch (Exception e) {
       throw new RuntimeException(e);

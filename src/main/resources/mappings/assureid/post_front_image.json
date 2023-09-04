@@ -19,7 +19,7 @@
         "state": {
           "instanceId": "{{request.pathSegments.[2]}}",
           "front_image": "{{{request.body}}}",
-          "back_image": "{{ state context=request.pathSegments.[2] property='back_image' default='' }}"
+          "back_image": "{{{ state context=request.pathSegments.[2] property='back_image' default='' }}}"
         }
       }
     }

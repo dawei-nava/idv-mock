@@ -8,11 +8,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ImageUpload {
+public class ImagePayload {
   @JsonProperty
   private String onglExpression;
 
-  @JsonProperty
+  @JsonProperty(defaultValue = "200")
   private int httpStatus;
 
   @JsonProperty(defaultValue = "-1")

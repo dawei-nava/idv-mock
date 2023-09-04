@@ -25,7 +25,7 @@ public class SpringContext implements ApplicationContextAware {
     setContext(context);
   }
 
-  public static ApplicationContext getContext() {
+  public static synchronized ApplicationContext getContext() {
     return context;
   }
 

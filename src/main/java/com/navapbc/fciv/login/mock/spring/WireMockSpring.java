@@ -24,7 +24,7 @@ import org.springframework.util.ClassUtils;
  *
  */
 public abstract class WireMockSpring {
-
+  private WireMockSpring() {}
   private static boolean initialized = false;
 
   public static WireMockConfiguration options() {

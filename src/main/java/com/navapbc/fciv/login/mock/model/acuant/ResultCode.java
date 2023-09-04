@@ -15,7 +15,7 @@ public enum ResultCode {
   }
 
   // Mapping difficulty to difficulty id
-  private static final Map<Integer, ResultCode> _map = new HashMap<Integer, ResultCode>();
+  private static final Map<Integer, ResultCode> _map = new HashMap<>();
 
   static {
     for (ResultCode code : ResultCode.values())
