@@ -3,23 +3,17 @@ package com.navapbc.fciv.login.mock.stubs.filter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.extension.requestfilter.RequestFilterAction;
-import com.github.tomakehurst.wiremock.extension.requestfilter.RequestWrapper;
 import com.github.tomakehurst.wiremock.extension.requestfilter.StubRequestFilter;
 import com.github.tomakehurst.wiremock.http.Request;
 import com.navapbc.fciv.login.mock.services.StorageService;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,27 +36,27 @@ public class GetResultRequestRequestFilter extends StubRequestFilter {
 
   @Override
   public RequestFilterAction filter(Request request) {
-    try {
-      String requestMethod = request.getMethod().toString();
-      LOGGER.debug("Request method = {}", requestMethod);
-      String url = request.getUrl();
-      LOGGER.debug("request : {}", url);
-      String instanceId = getInstanceId(url);
-      LOGGER.debug("Instance id: {}", instanceId);
-      if(!"Get".equalsIgnoreCase(requestMethod) ||! StringUtils.isNotBlank(instanceId))  {
-        return RequestFilterAction.continueWith(request);
-      }
-      String ognlExpression = getImagePayload(instanceId).getOnglExpression();
-      LOGGER.debug("Set X-Ognl-Expression: {}", ognlExpression);
-      Request newRequest =
-          RequestWrapper.create()
-              .addHeader("X-Ognl-Expression", ognlExpression)
-              .wrap(request);
-      LOGGER.debug("New request header: {}", newRequest.getAllHeaderKeys());
-      return RequestFilterAction.continueWith(newRequest);
-    } catch (Exception e) {
-      LOGGER.debug("Error filtering request: {}", e);
-    }
+//    try {
+//      String requestMethod = request.getMethod().toString();
+//      LOGGER.debug("Request method = {}", requestMethod);
+//      String url = request.getUrl();
+//      LOGGER.debug("request : {}", url);
+//      String instanceId = getInstanceId(url);
+//      LOGGER.debug("Instance id: {}", instanceId);
+//      if(!"Get".equalsIgnoreCase(requestMethod) ||! StringUtils.isNotBlank(instanceId))  {
+//        return RequestFilterAction.continueWith(request);
+//      }
+//      String ognlExpression = getImagePayload(instanceId).getOnglExpression();
+//      LOGGER.debug("Set X-Ognl-Expression: {}", ognlExpression);
+//      Request newRequest =
+//          RequestWrapper.create()
+//              .addHeader("X-Ognl-Expression", ognlExpression)
+//              .wrap(request);
+//      LOGGER.debug("New request header: {}", newRequest.getAllHeaderKeys());
+//      return RequestFilterAction.continueWith(newRequest);
+//    } catch (Exception e) {
+//      LOGGER.debug("Error filtering request: {}", e);
+//    }
     return RequestFilterAction.continueWith(request);
   }
 

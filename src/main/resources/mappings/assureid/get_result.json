@@ -5,7 +5,7 @@
   },
   "response": {
     "status": 200,
-    "transformers": ["response-template", "get-result-response-definition-transformer"],
+    "transformers": [ "get-result-response-definition-transformer", "response-template"],
     "transformerParameters": {
       "ognlExpression": "{{jsonPath(state context=request.pathSegments.[2] property='image') '$.front' }}"
     }
