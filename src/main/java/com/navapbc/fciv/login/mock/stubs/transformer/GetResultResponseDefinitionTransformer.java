@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.wiremock.extensions.state.internal.ContextManager;
 
@@ -65,6 +66,17 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
     LOGGER.debug("front Image: {}", frontImage);
     try {
       ImageUpload imageUpload = mapper.readValue(frontImage, ImageUpload.class);
+      int fixedDelays = imageUpload.getFixedDelays();
+      int status = imageUpload.getHttpStatus();
+      HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(status);
+      if(httpStatusCode.is4xxClientError() || httpStatusCode.is5xxServerError()) {
+        LOGGER.info("Return with status: {}", status);
+        return new ResponseDefinitionBuilder()
+            .withHeader("Content-Type", "application/json")
+            .withFixedDelay(fixedDelays <= 0 ? null : Integer.valueOf(fixedDelays))
+            .withStatus(status)
+            .build();
+      }
       String ognlExpression = imageUpload.getOnglExpression();
       LOGGER.debug("OGNL expression state: {}", ognlExpression);
         AcuantResponse template = loader.getTemplate();
@@ -75,6 +87,7 @@ public class GetResultResponseDefinitionTransformer extends ResponseDefinitionTr
           return new ResponseDefinitionBuilder()
               .withStatus(200)
               .withHeader("Content-Type", "application/json")
+              .withFixedDelay(fixedDelays <= 0 ? null : Integer.valueOf(fixedDelays))
               .withBody(mapper.writeValueAsString(result))
               .build();
         } catch (Exception e) {
