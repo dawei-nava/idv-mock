@@ -45,6 +45,10 @@ public class WireMockApplicationConfiguration implements SmartLifecycle {
 
   @Autowired private ResourceLoader resourceLoader;
 
+  public FileSource rootFileSource() {
+    return new SingleRootFileSource("src/main/resources");
+  }
+
   private WireMockServer server;
 
   private volatile boolean running;
@@ -56,7 +60,7 @@ public class WireMockApplicationConfiguration implements SmartLifecycle {
     }
     if (this.options == null) {
       com.github.tomakehurst.wiremock.core.WireMockConfiguration factory = WireMockSpring.options();
-      factory.fileSource(new SingleRootFileSource("src/main/resources"));
+      factory.fileSource(rootFileSource());
       if (this.wireMock.getServer().getPort() != 8080) {
         factory.port(this.wireMock.getServer().getPort());
       }

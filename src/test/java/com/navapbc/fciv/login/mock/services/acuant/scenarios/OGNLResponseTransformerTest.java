@@ -23,7 +23,7 @@ class OGNLResponseTransformerTest {
   @BeforeEach
   public void setUp() {
     try {
-      ReflectionTestUtils.setField(loader, "templateFile", "/files/acuant/state_id/get_results_response_success.json");
+      ReflectionTestUtils.setField(loader, "templateFile", "/__files/acuant/state_id/get_results_response_success.json");
       loader.afterPropertiesSet();
     } catch (Exception e) {
       throw new RuntimeException(e);

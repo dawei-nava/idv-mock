@@ -5,9 +5,7 @@
   },
   "response": {
     "status": 200,
-    "transformers": ["response-template", "get-result-response-definition-transformer"],
-    "transformerParameters": {
-      "ognlExpression": "{{jsonPath(state context=request.pathSegments.[2] property='image') '$.front' }}"
-    }
+    "bodyFileName": "acuant/state_id/get_results_response_success.json",
+    "transformers": ["get-result-response-definition-transformer", "response-template" ]
   }
 }

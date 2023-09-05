@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AcuantResponseTemplateLoader implements InitializingBean {
 
-  @Value("${assureid.result.template:/files/acuant/state_id/get_results_response_success.json}")
+  @Value("${assureid.result.template:/__files/acuant/state_id/get_results_response_success.json}")
   String templateFile;
 
   private ObjectMapper mapper;
