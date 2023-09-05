@@ -12,12 +12,13 @@ import ognl.OgnlContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.test.util.ReflectionTestUtils;
 
 class OGNLResponseTransformerTest {
 
   private AcuantResponseTemplateLoader loader =
-      new AcuantResponseTemplateLoader(new ObjectMapper());
+      new AcuantResponseTemplateLoader( new DefaultResourceLoader(), new ObjectMapper());
 
   @BeforeEach
   public void setUp() {

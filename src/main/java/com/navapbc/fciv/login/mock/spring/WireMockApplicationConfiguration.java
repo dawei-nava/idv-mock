@@ -94,25 +94,19 @@ public class WireMockApplicationConfiguration implements SmartLifecycle {
       this.server = new WireMockServer(this.options);
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug(
-            "Created new server ["
-                + this.server
-                + "] at http port ["
-                + httpPort()
-                + "] and https port ["
-                + httpsPort()
-                + "]");
+            "Created new server [{}] at http port [{}] and {} [{}]",
+            this.server,
+            httpPort(),
+            httpsPort());
       }
     }
     start();
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(
-          "Started server ["
-              + this.server
-              + "] at http port ["
-              + httpPort()
-              + "] and https port ["
-              + httpsPort()
-              + "]");
+          "Started new server [{}] at http port [{}] and {} [{}]",
+          this.server,
+          httpPort(),
+          httpsPort());
     }
     logRegisteredMappings();
   }
@@ -253,9 +247,12 @@ public class WireMockApplicationConfiguration implements SmartLifecycle {
   }
 
   private int port(WireMockServer server) {
-    return server.isRunning()
-        ? (server.getOptions().httpsSettings().enabled() ? server.httpsPort() : server.port())
-        : -1;
+    if (server.isRunning()) {
+      if (server.getOptions().httpsSettings().enabled()) return server.httpsPort();
+      return server.port();
+    } else {
+      return -1;
+    }
   }
 
   @Override

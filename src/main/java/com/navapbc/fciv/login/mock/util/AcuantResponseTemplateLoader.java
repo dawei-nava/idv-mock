@@ -3,15 +3,17 @@ package com.navapbc.fciv.login.mock.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,26 +24,36 @@ public class AcuantResponseTemplateLoader implements InitializingBean {
   String templateFile;
 
   private ObjectMapper mapper;
+  private ResourceLoader resourceLoader;
   private String template;
 
   @Autowired
-  public AcuantResponseTemplateLoader(ObjectMapper mapper) {
+  public AcuantResponseTemplateLoader(ResourceLoader resourceLoader , ObjectMapper mapper) {
     this.mapper = mapper;
+    this.resourceLoader = resourceLoader;
   }
 
 
 
   protected String load() {
     LOGGER.debug("Using template file path: {}", templateFile);
+    InputStream inputStream = null;
     try {
-      File input =
-          new ClassPathResource(
-                  templateFile, this.getClass())
-              .getFile();
-      template = FileUtils.readFileToString(input, Charset.defaultCharset());
-
+      inputStream = resourceLoader.getResource(templateFile).getInputStream();
+      List<String> lines = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
+      template= StringUtils.join(lines, "\n");
+      LOGGER.trace("Loaded template: {}", template);
+      inputStream.close();
     } catch (IOException e) {
       LOGGER.debug("Cannot read response template file {}: {}", templateFile, e.getMessage());
+    }finally{
+      if(inputStream!=null) {
+        try {
+          inputStream.close();
+        }catch (Exception e) {
+          // blank
+        }
+      }
     }
     return template;
   }

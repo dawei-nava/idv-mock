@@ -27,7 +27,7 @@ public class ChainingResponseTransformer implements ResponseTransformer{
     this.transformerList.add(transformer);
   }
   @Override
-  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws Exception {
+  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws TransformException {
     if(CollectionUtils.isEmpty(this.transformerList)) {
       LOGGER.debug("No transformers found, return original result.");
       return response;

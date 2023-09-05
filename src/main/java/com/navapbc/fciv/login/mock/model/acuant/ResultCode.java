@@ -8,6 +8,7 @@ public enum ResultCode {
   FAILURE(0),
   UNKNOWN(2);
 
+  @SuppressWarnings("java:S116x")
   public final int Value;
 
   private ResultCode(int value) {

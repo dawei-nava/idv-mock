@@ -4,5 +4,5 @@ import com.navapbc.fciv.login.acuant.AcuantResponse;
 import java.util.Map;
 
 public interface ResponseTransformer {
-  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws Exception;
+  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws TransformException;
 }

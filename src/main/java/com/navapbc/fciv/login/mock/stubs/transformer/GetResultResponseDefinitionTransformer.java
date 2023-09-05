@@ -33,7 +33,7 @@ public class GetResultResponseDefinitionTransformer implements ResponseDefinitio
   @Autowired private ObjectMapper mapper;
 
   @Autowired
-  @Qualifier("ognl")
+  @Qualifier("ognlTransformer")
   private ResponseTransformer transformer;
 
   @Autowired private DefaultStateExtension defaultStateExtension;

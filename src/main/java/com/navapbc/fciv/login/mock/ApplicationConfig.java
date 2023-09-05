@@ -18,7 +18,7 @@ import org.wiremock.extensions.state.internal.ContextManager;
 @Configuration
 @EnableConfigurationProperties
 @ComponentScan(
-    basePackages = {"com.navapbc.fciv.login.mock.services", "com.navapbc.fciv.login.mock.stubs","com.navapbc.fciv.login.mock.util" })
+    basePackages = {"com.navapbc.fciv.login.mock.services", "com.navapbc.fciv.login.mock.stubs","com.navapbc.fciv.login.mock.util", "com.navapbc.fciv.login.mock.spring" })
 public class ApplicationConfig {
 
   @Bean
