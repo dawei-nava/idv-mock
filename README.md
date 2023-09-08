@@ -117,3 +117,6 @@ An example to trigger `440` http status code, which means a IMAGE_SIZE failure (
   "httpStatus": 440
 }
 ```
+
+#### Note: 
+Part of the `wiremock-state-extension` configuration code for `Spring`is from the `spring-cloud-contract-wiremock` project which does support `wiremock` v3 now.
