@@ -27,7 +27,7 @@ To summarize, make sure the repository is configured in `~/.m2/settings.xml` loo
         </repository>
         <repository>
           <id>github</id>
-          <url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+          <url>https://maven.pkg.github.com/wiremock/wiremock-extension-state</url>
           <snapshots>
             <enabled>true</enabled>
           </snapshots>
