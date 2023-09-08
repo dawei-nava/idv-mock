@@ -36,7 +36,8 @@ class AcuantWireMockApplicationTest {
         response.getAlerts().stream()
             .filter(a -> a.getKey().equals("2D Barcode Content"))
             .findFirst()
-            .orElseThrow().getResult();
+            .orElseThrow()
+            .getResult();
     Assertions.assertEquals(5, result);
   }
 

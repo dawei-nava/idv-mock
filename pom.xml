@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.navapbc.fciv.login</groupId>
-    <artifactId>acuant-mock</artifactId>
+    <artifactId>idv-mock</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>acuant-mock</name>
-    <description>Demo project for Spring Boot</description>
+    <name>idv-mock</name>
+    <description>Mocking services for IDV ext vendors</description>
     <properties>
         <java.version>20</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
