@@ -2,6 +2,52 @@
 
 This application mocks services like Acuant TrueID etc. The default url is http://localhost:8080.
 
+## Build requirement
+It depends on one wiremock extension library which is hosted on github, customized configuraiton is needed for `Maven`.
+
+After installation of maven, customize the setting by following [Github documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry). 
+To summarize, make sure the repository is configured in `~/.m2/settings.xml` looks like
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <servers>
+    <server>
+      <id>github</id>
+      <username>USERNAME</username>
+      <password>TOKEN</password>
+    </server>
+  </servers>
+</settings>
+```
+
+
+
 ## Running the service
 
 ### Run from code base
