@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/TrueIDResponse",
+  "definitions": {
+    "TrueIDResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "javaInterfaces": ["com.navapbc.fciv.login.mock.model.DocAuthResponse"],
+      "properties": {
+        "Status": {
+          "$ref": "#/definitions/Status"
+        },
+        "Products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "required": [
+        "Products",
+        "Status"
+      ],
+      "title": "TrueIDResponse"
+    },
+    "Product": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ProductType": {
+          "type": "string"
+        },
+        "ExecutedStepName": {
+          "type": "string"
+        },
+        "ProductConfigurationName": {
+          "type": "string"
+        },
+        "ProductStatus": {
+          "type": "string"
+        },
+        "ParameterDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterDetail"
+          }
+        },
+        "ProductReason": {
+          "$ref": "#/definitions/TransactionReasonCode"
+        }
+      },
+      "required": [
+        "ExecutedStepName",
+        "ProductConfigurationName",
+        "ProductStatus",
+        "ProductType"
+      ],
+      "title": "Product"
+    },
+    "ParameterDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Group": {
+          "$ref": "#/definitions/Group"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Value"
+          }
+        }
+      },
+      "required": [
+        "Group",
+        "Name",
+        "Values"
+      ],
+      "title": "ParameterDetail"
+    },
+    "Value": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Value": {
+          "type": "string"
+        },
+        "Detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Value"
+      ],
+      "title": "Value"
+    },
+    "TransactionReasonCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Code": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Code",
+        "Description"
+      ],
+      "title": "TransactionReasonCode"
+    },
+    "Status": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ConversationId": {
+          "type": "string"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "integer"
+        },
+        "TransactionStatus": {
+          "type": "string"
+        },
+        "TransactionReasonCode": {
+          "$ref": "#/definitions/TransactionReasonCode"
+        },
+        "Reference": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "ConversationId",
+        "Reference",
+        "RequestId",
+        "TransactionReasonCode",
+        "TransactionStatus"
+      ],
+      "title": "Status"
+    },
+    "Group": {
+      "type": "string",
+      "enum": [
+        "AUTHENTICATION_RESULT",
+        "IMAGE_METRICS_RESULT",
+        "IDAUTH_FIELD_DATA"
+      ],
+      "title": "Group"
+    }
+  }
+}

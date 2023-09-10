@@ -1,8 +1,9 @@
 package com.navapbc.fciv.login.mock.services.acuant.scenarios;
 
-import com.navapbc.fciv.login.acuant.AcuantResponse;
+import com.navapbc.fciv.login.mock.model.DocAuthResponse;
 import java.util.Map;
 
 public interface ResponseTransformer {
-  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws TransformException;
+  public DocAuthResponse transform(DocAuthResponse response, Map<String, Object> context)
+      throws TransformException;
 }

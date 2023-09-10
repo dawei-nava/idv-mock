@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/restws/identity/v3/accounts/([\/]+)/workflows/([\/]+)/conversations"
+  },
+  "response": {
+    "status": 200,
+    "transformers": [ "response-template"],
+    "bodyFileName": "trueid/state_id/true_id_response_success.json"
+  }
+}

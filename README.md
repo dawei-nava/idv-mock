@@ -118,5 +118,26 @@ An example to trigger `440` http status code, which means a IMAGE_SIZE failure (
 }
 ```
 
+## LexisNexis TrueID
+
+List of Alerts
+
+* "Visible Pattern",
+* "2D Barcode Content",
+* "2D Barcode Read",
+* "Birth Date Crosscheck",
+* "Birth Date Valid",
+* "Document Classification",
+* "Document Crosscheck Aggregation",
+* "Document Expired",
+* "Document Number Crosscheck",
+* "Expiration Date Crosscheck",
+* "Expiration Date Valid",
+* "Full Name Crosscheck",
+* "Issue Date Crosscheck",
+* "Issue Date Valid",
+* "Sex Crosscheck",
+* "Visible Pattern",
+
 #### Note: 
 Part of the `wiremock-state-extension` configuration code for `Spring`is from the `spring-cloud-contract-wiremock` project which does support `wiremock` v3 now.
