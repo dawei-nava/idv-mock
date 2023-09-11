@@ -88,4 +88,9 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
   public String getName() {
     return "true-id-response-transformer";
   }
+
+  @Override
+  public boolean applyGlobally() {
+    return false;
+  }
 }

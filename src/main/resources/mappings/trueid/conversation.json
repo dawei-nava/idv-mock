@@ -5,7 +5,7 @@
   },
   "response": {
     "status": 200,
-    "transformers": [ "response-template"],
+    "transformers": [ "response-template", "true-id-response-transformer"],
     "bodyFileName": "trueid/state_id/true_id_response_success.json"
   }
 }

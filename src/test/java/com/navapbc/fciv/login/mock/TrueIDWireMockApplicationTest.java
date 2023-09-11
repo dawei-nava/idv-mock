@@ -1,6 +1,9 @@
 package com.navapbc.fciv.login.mock;
 
+import com.navapbc.fciv.login.mock.util.TrueIDImageUploadUtil;
+import com.navapbc.fciv.login.trueid.TrueIDResponse;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,8 +18,13 @@ public class TrueIDWireMockApplicationTest {
   @Value("${trueid.account:123456")
   String account;
 
+  @Autowired TrueIDImageUploadUtil trueIDImageUploadUtil;
+
   @Test
-  void test() {}
+  void test() {
+    TrueIDResponse trueIDResponse;
+    // trueIDImageUploadUtil.uploadAndGetResponse(getUrl(), "#details=#this.products
+  }
 
   String getUrl() {
     return new StringBuilder("http://localhost:")
