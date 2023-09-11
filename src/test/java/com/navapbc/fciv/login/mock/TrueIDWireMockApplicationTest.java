@@ -1,5 +1,6 @@
 package com.navapbc.fciv.login.mock;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navapbc.fciv.login.mock.util.TrueIDImageUploadUtil;
 import com.navapbc.fciv.login.trueid.TrueIDResponse;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,19 @@ public class TrueIDWireMockApplicationTest {
   @Autowired TrueIDImageUploadUtil trueIDImageUploadUtil;
 
   @Test
-  void test() {
+  void test() throws JsonProcessingException {
     TrueIDResponse trueIDResponse;
-    // trueIDImageUploadUtil.uploadAndGetResponse(getUrl(), "#details=#this.products
+    String[] ognlExpressions =
+        new String[] {
+          "#detail=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name.endsWith('AlertName') && values.{?value=='2D Barcode Content'}.size==1 }}[0][0]",
+          "#target_name=#detail.name",
+          "#name_seq=#target_name.split(\"_\")[1]",
+          "#result_name=\"Alert_\"+#name_seq+ \"_AuthenticationResult\"",
+          "#auth_result=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name==#result_name }}[0][0]",
+          "#auth_result.values[0].value='Failed'",
+        };
+    String ognlExpression = String.join(", ", ognlExpressions);
+    trueIDResponse = trueIDImageUploadUtil.uploadAndGetResponse(getUrl(), ognlExpression);
   }
 
   String getUrl() {
