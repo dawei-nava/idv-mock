@@ -15,8 +15,9 @@ Content-Type: application/json
 POST http://localhost:8080/AssureIDService/Document/{{instance_id}}/Image?side=front&light=0
 
 {
-"onglExpression": "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10"
+"httpStatus" : 438
 }
+
 
 ### Get Result
 GET http://localhost:8080/AssureIDService/Document/{{instance_id}}

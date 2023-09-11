@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "POST",
-    "urlPattern": "/AssureIDService/Document/[^/]+/Image.side=(front|back|0|1)&light=0",
+    "urlPattern": "/AssureIDService/Document/[^/]+/Image.*",
     "queryParameters": {
       "side": {
         "matches": "^(back|1)$"

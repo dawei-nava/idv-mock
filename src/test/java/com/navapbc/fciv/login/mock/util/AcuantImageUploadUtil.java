@@ -23,60 +23,61 @@ public class AcuantImageUploadUtil {
     this.mapper = mapper;
   }
 
-  public AcuantResponse uploadAndGetResponse(String baseUrl, String oglnExpression) throws JsonProcessingException {
-    String createInstanceUrl = baseUrl+"/AssureIDService/Document/Instance";
+  public AcuantResponse uploadAndGetResponse(String baseUrl, String oglnExpression)
+      throws JsonProcessingException {
+    String createInstanceUrl = baseUrl + "/AssureIDService/Document/Instance";
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<String> request =
-        new HttpEntity<String>("", headers);
-    String instanceId = restTemplate.postForObject(createInstanceUrl, request, String.class);
+    HttpEntity<String> request = new HttpEntity<String>("", headers);
+    String instanceId =
+        restTemplate.postForObject(createInstanceUrl, request, String.class).replaceAll("\"", "");
     Assertions.assertNotNull(instanceId);
 
     // post front side
-    String postFrontImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=front&light=0";
+    String postFrontImageUrl =
+        baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=front&light=0";
     ImagePayload payload = new ImagePayload();
     payload.setOnglExpression(oglnExpression);
-    request =
-        new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
+    request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
     restTemplate.postForObject(postFrontImageUrl, request, String.class);
     // post back side
-    String postBackImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=back&light=0";
-    request =
-        new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
+    String postBackImageUrl =
+        baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=back&light=0";
+    request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
     restTemplate.postForObject(postBackImageUrl, request, String.class);
 
-    String getResultsUrl = baseUrl+"/AssureIDService/Document/"+instanceId;
+    String getResultsUrl = baseUrl + "/AssureIDService/Document/" + instanceId;
     AcuantResponse response = restTemplate.getForObject(getResultsUrl, AcuantResponse.class);
-    return  response;
+    return response;
   }
 
   public void uploadWithException(String baseUrl, int status) {
-    String createInstanceUrl = baseUrl+"/AssureIDService/Document/Instance";
+    String createInstanceUrl = baseUrl + "/AssureIDService/Document/Instance";
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<String> request =
-        new HttpEntity<String>("", headers);
-    String instanceId = restTemplate.postForObject(createInstanceUrl, request, String.class);
+    HttpEntity<String> request = new HttpEntity<String>("", headers);
+    String instanceId =
+        restTemplate.postForObject(createInstanceUrl, request, String.class).replaceAll("\"", "");
     Assertions.assertNotNull(instanceId);
 
     // post front side
-    String postFrontImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=front&light=0";
+    String postFrontImageUrl =
+        baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=front&light=0";
     ImagePayload payload = new ImagePayload();
     payload.setHttpStatus(status);
     try {
-      request =
-          new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
+      request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
       restTemplate.postForObject(postFrontImageUrl, request, String.class);
       // post back side
-      String postBackImageUrl = baseUrl+"/AssureIDService/Document/"+instanceId+"/Image?side=back&light=0";
-      request =
-          new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
+      String postBackImageUrl =
+          baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=back&light=0";
+      request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
       restTemplate.postForObject(postBackImageUrl, request, String.class);
-    }catch(JsonProcessingException e) {
+    } catch (JsonProcessingException e) {
 
     }
 
-    String getResultsUrl = baseUrl+"/AssureIDService/Document/"+instanceId;
+    String getResultsUrl = baseUrl + "/AssureIDService/Document/" + instanceId;
     restTemplate.getForObject(getResultsUrl, AcuantResponse.class);
   }
 }

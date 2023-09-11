@@ -5,16 +5,16 @@
   },
   "response": {
     "status": 200,
-    "body": "{{randomValue type='UUID'}}",
+    "body": "\"{{randomValue type='UUID'}}\"",
     "transformers": ["response-template"]
   },
   "serveEventListeners": [
     {
       "name": "recordState",
       "parameters": {
-        "context": "{{cut response.body ['\"']}}",
+        "context": "{{{cut response.body '\"'  }}}",
         "state": {
-          "instanceId": "{{cut response.body ['\"']}}"
+          "instanceId": "{{{cut response.body '\"' }}}"
         }
       }
     }
