@@ -15,6 +15,7 @@ import com.navapbc.fciv.login.mock.model.acuant.ImagePayload;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.ResponseTransformer;
 import com.navapbc.fciv.login.mock.util.SpringContext;
 import com.navapbc.fciv.login.trueid.TrueIDResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -38,16 +39,18 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
   public ResponseDefinition transform(ServeEvent serveEvent) {
     Request request = serveEvent.getRequest();
     LOGGER.debug("Body file name: {}", serveEvent.getResponseDefinition().getBodyFileName());
+    String bodyFile = serveEvent.getResponseDefinition().getBodyFileName();
     WireMockServer wireMockServer = SpringContext.getBean(WireMockServer.class);
     Optional<byte[]> templateData =
         ((FileSourceBlobStore) wireMockServer.getOptions().getStores().getFilesBlobStore())
-            .get("trueid/state_id/true_id_response_success.json");
+            .get(bodyFile);
     if (!templateData.isPresent()) {
       return new ResponseDefinitionBuilder().withStatus(500).build();
     }
     try {
       String templateContent = new String(templateData.get());
-      ImagePayload imagePayload = mapper.readValue(templateContent, ImagePayload.class);
+      TrueIDResponse template = mapper.readValue(templateContent, TrueIDResponse.class);
+      ImagePayload imagePayload = mapper.readValue(request.getBody(), ImagePayload.class);
       int fixedDelays = imagePayload.getFixedDelays();
       int status = imagePayload.getHttpStatus();
       HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(status == 0 ? 200 : status);
@@ -61,7 +64,6 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
       }
       String ognlExpression = imagePayload.getOnglExpression();
       LOGGER.debug("OGNL expression state: {}", ognlExpression);
-      TrueIDResponse template = mapper.readValue(templateContent, TrueIDResponse.class);
       try {
         Map<String, Object> transformerContext = new HashMap<>();
         transformerContext.put("ognlExpression", ognlExpression);
@@ -80,6 +82,8 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
       LOGGER.error("JSON mapping error: {}", e.getMessage());
     } catch (JsonProcessingException e) {
       LOGGER.error("JSON processing error: {}", e.getMessage());
+    } catch (IOException e) {
+      LOGGER.error("IO error: {}", e.getMessage());
     }
     return new ResponseDefinitionBuilder().withStatus(500).build();
   }
