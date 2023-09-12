@@ -63,6 +63,10 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
             .build();
       }
       String ognlExpression = imagePayload.getOnglExpression();
+      String[] ognlExpressions = imagePayload.getOgnlExpressions();
+      if (ognlExpressions != null && ognlExpressions.length > 0) {
+        ognlExpression = String.join(",", ognlExpressions);
+      }
       LOGGER.debug("OGNL expression state: {}", ognlExpression);
       try {
         Map<String, Object> transformerContext = new HashMap<>();

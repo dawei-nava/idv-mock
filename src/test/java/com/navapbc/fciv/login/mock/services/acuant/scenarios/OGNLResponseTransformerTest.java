@@ -141,16 +141,11 @@ class OGNLResponseTransformerTest {
     String[] ognlExpressions =
         new String[] {
           "#detail=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name.endsWith('AlertName') && values.{?value=='2D Barcode Content'}.size==1 }}[0][0]",
-          "@java.lang.System@out.println( #detail)",
           "#target_name=#detail.name",
-          "@java.lang.System@out.println(#target_name)",
           "#name_seq=#target_name.split(\"_\")[1]",
           "#result_name=\"Alert_\"+#name_seq+ \"_AuthenticationResult\"",
-          "@java.lang.System@out.println(#result_name)",
           "#auth_result=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name==#result_name }}[0][0]",
-          "@java.lang.System@out.println(#auth_result)",
           "#auth_result.values[0].value='Failed'",
-          "@java.lang.System@out.println(#auth_result.values[0])"
         };
     String ognlExpression = String.join(", ", ognlExpressions);
     transformerContext.put("ognlExpression", ognlExpression);
