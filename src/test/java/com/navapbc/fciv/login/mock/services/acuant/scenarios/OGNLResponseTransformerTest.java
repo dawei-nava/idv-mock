@@ -158,4 +158,30 @@ class OGNLResponseTransformerTest {
     String newStatus = result.getValues().get(0).getValue();
     Assertions.assertEquals("Failed", newStatus);
   }
+
+  @Test
+  void trueIDImageMetrics() throws TransformException {
+    TrueIDResponse response = trueIDLoader.getTemplate();
+    OGNLResponseTransformer transformer = new OGNLResponseTransformer();
+    Map<String, Object> transformerContext = new HashMap<>();
+    String[] ognlExpressions =
+        new String[] {
+          "#detail=#this.products.{parameterDetails.{? group.value=='IMAGE_METRICS_RESULT' && name=='GlareMetric' }}[0][0]",
+          "#detail.values[0].value='10'"
+        };
+    String ognlExpression = String.join(", ", ognlExpressions);
+    transformerContext.put("ognlExpression", ognlExpression);
+    transformer.transform(response, transformerContext);
+    ParameterDetail result =
+        response.getProducts().get(0).getParameterDetails().stream()
+            .filter(
+                (parameterDetail -> {
+                  return parameterDetail.getGroup().value().equals("IMAGE_METRICS_RESULT")
+                      && parameterDetail.getName().equals("GlareMetric");
+                }))
+            .findFirst()
+            .get();
+    String newValue = result.getValues().get(0).getValue();
+    Assertions.assertEquals("10", newValue);
+  }
 }
