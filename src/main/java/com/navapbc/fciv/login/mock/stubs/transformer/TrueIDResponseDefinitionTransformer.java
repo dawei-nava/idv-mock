@@ -62,7 +62,7 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
             .withStatus(status)
             .build();
       }
-      String ognlExpression = imagePayload.getOnglExpression();
+      String ognlExpression = imagePayload.getOgnlExpression();
       String[] ognlExpressions = imagePayload.getOgnlExpressions();
       if (ognlExpressions != null && ognlExpressions.length > 0) {
         ognlExpression = String.join(",", ognlExpressions);

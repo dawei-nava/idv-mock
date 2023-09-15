@@ -26,7 +26,7 @@ public class TrueIDImageUploadUtil {
       throws JsonProcessingException {
     TrueIDResponse response = null;
     ImagePayload payload = new ImagePayload();
-    payload.setOnglExpression(oglnExpression);
+    payload.setOgnlExpression(oglnExpression);
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> request =

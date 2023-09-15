@@ -37,7 +37,7 @@ public class AcuantImageUploadUtil {
     String postFrontImageUrl =
         baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=front&light=0";
     ImagePayload payload = new ImagePayload();
-    payload.setOnglExpression(oglnExpression);
+    payload.setOgnlExpression(oglnExpression);
     request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
     restTemplate.postForObject(postFrontImageUrl, request, String.class);
     // post back side

@@ -69,7 +69,7 @@ public class GetResultResponseDefinitionTransformer implements ResponseDefinitio
             .withStatus(status)
             .build();
       }
-      String ognlExpression = imagePayload.getOnglExpression();
+      String ognlExpression = imagePayload.getOgnlExpression();
       LOGGER.debug("OGNL expression state: {}", ognlExpression);
       AcuantResponse template = mapper.readValue(templateContent, AcuantResponse.class);
       try {

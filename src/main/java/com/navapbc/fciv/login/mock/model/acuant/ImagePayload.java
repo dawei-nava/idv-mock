@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ImagePayload {
-  @JsonProperty private String onglExpression;
+  @JsonProperty private String ognlExpression;
 
   @JsonProperty private String[] ognlExpressions;
 
