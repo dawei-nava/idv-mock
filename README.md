@@ -69,7 +69,7 @@ java -jar idk-mock-xxxx.jar
 
 ## Test scenarios for vendors
 
-### Acuant TrueID
+### Acuant AssureID
 
 A json file can be used as document images to trigger response needed.
 
