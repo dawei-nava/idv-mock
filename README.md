@@ -1,6 +1,6 @@
 # Mocking services for doc-auth external vendor
 
-This application mocks services like Acuant TrueID etc. The default url is http://localhost:8080.
+This application mocks services like Acuant AssureID or LexisNexis TrueID etc. The default url is http://localhost:8080.
 
 ## Build requirement
 It depends on one wiremock extension library which is hosted on github, customized configuraiton is needed for `Maven`.
