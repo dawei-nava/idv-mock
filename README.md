@@ -79,6 +79,10 @@ The specification of the json file looks like the following:
 {
   "httpStatus": 500|438|439|440,
   "ognlExpression": "",
+  "ognlExpressions": [
+    "xxxx",
+    "yyyy"
+  ],
   "fixedDelays": 1000
 }
 ```
