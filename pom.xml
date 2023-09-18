@@ -148,7 +148,7 @@
                 <version>1.2.1</version>
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/schemas</sourceDirectory>
-                    <targetPackage>com.navapbc.fciv.login.acuant</targetPackage>
+                    <targetPackage>com.navapbc.fciv.login</targetPackage>
                     <includeGeneratedAnnotation />
                     <generateBuilders>true</generateBuilders>
 <!--                    <customAnnotator>com.navapbc.fciv.login.mock.util.JsonLombokAnnotator</customAnnotator>-->

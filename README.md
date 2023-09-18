@@ -67,9 +67,9 @@ mvn package
 java -jar idk-mock-xxxx.jar
 ```
 
-## Test various scenarios
+## Test scenarios for vendors
 
-### Acuant TrueID
+### Acuant AssureID
 
 A json file can be used as document images to trigger response needed.
 
@@ -77,7 +77,7 @@ The specification of the json file looks like the following:
 
 ```json
 {
-  "httpStatus": "500|438|439|440",
+  "httpStatus": 500|438|439|440,
   "ognlExpression": "",
   "fixedDelays": 1000
 }
@@ -118,5 +118,50 @@ An example to trigger `440` http status code, which means a IMAGE_SIZE failure (
 }
 ```
 
+## LexisNexis TrueID
+
+List of Alerts
+
+* "Visible Pattern",
+* "2D Barcode Content",
+* "2D Barcode Read",
+* "Birth Date Crosscheck",
+* "Birth Date Valid",
+* "Document Classification",
+* "Document Crosscheck Aggregation",
+* "Document Expired",
+* "Document Number Crosscheck",
+* "Expiration Date Crosscheck",
+* "Expiration Date Valid",
+* "Full Name Crosscheck",
+* "Issue Date Crosscheck",
+* "Issue Date Valid",
+* "Sex Crosscheck",
+
+### TrueID authentication result field failure
+
+An example to change a `2D Barcode Content` authentication result.
+```json
+{
+  "ognlExpressions" :  [
+    "#detail=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name.endsWith('AlertName') && values.{?value=='2D Barcode Content'}.size==1 }}[0][0]",
+    "#target_name=#detail.name",
+    "#name_seq=#target_name.split(\"_\")[1]",
+    "#result_name=\"Alert_\"+#name_seq+ \"_AuthenticationResult\"",
+    "#auth_result=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name==#result_name }}[0][0]",
+    "#auth_result.values[0].value='Failed'"
+  ]
+}
+```
+
+TrueID uses no http status for data checks, an example to change image metrics.
+```json
+{
+  "ognlExpressions": [
+    "#detail=#this.products.{parameterDetails.{? group.value=='IMAGE_METRICS_RESULT' && name=='GlareMetric' }}[0][0]",
+    "#detail.values[0].value='10'"
+  ]
+}
+```
 #### Note: 
 Part of the `wiremock-state-extension` configuration code for `Spring`is from the `spring-cloud-contract-wiremock` project which does support `wiremock` v3 now.

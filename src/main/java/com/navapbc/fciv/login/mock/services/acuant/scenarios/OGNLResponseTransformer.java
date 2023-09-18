@@ -1,6 +1,6 @@
 package com.navapbc.fciv.login.mock.services.acuant.scenarios;
 
-import com.navapbc.fciv.login.acuant.AcuantResponse;
+import com.navapbc.fciv.login.mock.model.DocAuthResponse;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class OGNLResponseTransformer implements ResponseTransformer{
   private Map<Object, Object> ognlContext = new HashMap<>();
 
   @Override
-  public AcuantResponse transform(AcuantResponse response, Map<String, Object> context) throws TransformException {
+  public DocAuthResponse transform(DocAuthResponse response, Map<String, Object> context) throws TransformException {
     String ognlExpression = context.get("ognlExpression").toString();
     LOGGER.debug("Transform with OGNL expression: {}", ognlExpression);
     if(StringUtils.isBlank(ognlExpression)) {

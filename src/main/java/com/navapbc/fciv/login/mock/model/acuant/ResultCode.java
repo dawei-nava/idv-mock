@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ResultCode {
+  UNKNOWN(0),
   SUCCESS(1),
-  FAILURE(0),
-  UNKNOWN(2);
+  FAILURE(2),
+  SKIPPED(3),
+  CAUTION(4),
+  ATTENTION(5);
 
   @SuppressWarnings("java:S116x")
   public final int Value;
@@ -19,8 +22,7 @@ public enum ResultCode {
   private static final Map<Integer, ResultCode> _map = new HashMap<>();
 
   static {
-    for (ResultCode code : ResultCode.values())
-      _map.put(code.Value, code);
+    for (ResultCode code : ResultCode.values()) _map.put(code.Value, code);
   }
 
   public static ResultCode from(int value) {

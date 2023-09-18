@@ -5,6 +5,7 @@
     "AcuantResponse": {
       "type": "object",
       "additionalProperties": false,
+      "javaInterfaces": ["com.navapbc.fciv.login.mock.model.DocAuthResponse"],
       "properties": {
         "Alerts": {
           "type": "array",
