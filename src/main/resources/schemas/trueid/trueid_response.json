@@ -150,7 +150,8 @@
       "enum": [
         "AUTHENTICATION_RESULT",
         "IMAGE_METRICS_RESULT",
-        "IDAUTH_FIELD_DATA"
+        "IDAUTH_FIELD_DATA",
+        "DOCUMENT_REGION"
       ],
       "title": "Group"
     }
