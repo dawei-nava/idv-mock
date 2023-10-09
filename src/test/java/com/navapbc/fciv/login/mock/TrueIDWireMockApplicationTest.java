@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class TrueIDWireMockApplicationTest {
+class TrueIDWireMockApplicationTest {
   @Value("${wiremock.server.port:8080}")
   int serverPort;
 
@@ -34,6 +34,8 @@ public class TrueIDWireMockApplicationTest {
           "#result_name=\"Alert_\"+#name_seq+ \"_AuthenticationResult\"",
           "#auth_result=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name==#result_name }}[0][0]",
           "#auth_result.values[0].value='Failed'",
+          "#doc_result=#this.products.{parameterDetails.{? group.value=='AUTHENTICATION_RESULT' && name == 'DocAuthResult' }}[0][0]",
+          "#doc_result.values[0].value='Failed'"
         };
     String ognlExpression = String.join(", ", ognlExpressions);
     System.out.println(getUrl());
