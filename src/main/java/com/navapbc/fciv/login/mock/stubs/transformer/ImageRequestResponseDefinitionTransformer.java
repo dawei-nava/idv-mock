@@ -42,6 +42,7 @@ public class ImageRequestResponseDefinitionTransformer implements ResponseDefini
     } else if ("back".equalsIgnoreCase(side)) {
       imagePayload = requestImage.getBack();
     }
+    imagePayload = (imagePayload == null) ? new ImagePayload() : imagePayload;
 
     int status = imagePayload.getHttpStatus();
     HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(status == 0 ? 200 : status);

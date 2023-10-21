@@ -2,7 +2,7 @@ package com.navapbc.fciv.login.mock.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.navapbc.fciv.login.mock.model.acuant.ImagePayload;
+import com.navapbc.fciv.login.mock.model.acuant.ResultPayload;
 import com.navapbc.fciv.login.mock.model.trueid.Document;
 import com.navapbc.fciv.login.mock.model.trueid.TrueIDRequest;
 import com.navapbc.fciv.login.trueid.TrueIDResponse;
@@ -31,7 +31,7 @@ public class TrueIDImageUploadUtil {
     TrueIDRequest trueIDRequest = new TrueIDRequest();
     trueIDRequest.setType("Initiate");
     trueIDRequest.setDocumentType("DriversLicenses");
-    ImagePayload payload = new ImagePayload();
+    ResultPayload payload = new ResultPayload();
     payload.setOgnlExpression(oglnExpression);
     String payloadStr = mapper.writeValueAsString(payload);
     String payloadBase64Str = Base64.encodeBase64String(payloadStr.getBytes());
