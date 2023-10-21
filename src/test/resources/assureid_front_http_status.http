@@ -1,0 +1,21 @@
+### Create instance
+POST http://localhost:8080/AssureIDService/Document/Instance
+Content-Type: application/json
+
+{
+}
+
+> {%
+  client.global.set("instance_id", response.body.trim().replace(/"/g, ""));
+  client.log(client.global.get("instance_id"))
+%}
+
+
+### Post front
+POST http://localhost:8080/AssureIDService/Document/{{instance_id}}/Image?side=front&light=0
+
+{
+  "front": {
+    "httpStatus" : 438
+  }
+}

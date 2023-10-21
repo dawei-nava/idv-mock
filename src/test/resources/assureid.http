@@ -15,7 +15,22 @@ Content-Type: application/json
 POST http://localhost:8080/AssureIDService/Document/{{instance_id}}/Image?side=front&light=0
 
 {
-"onglExpression": "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10"
+  "front": {},
+  "back": {},
+  "result": {
+    "ognlExpression": "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10"
+  }
+}
+
+### Post back
+POST http://localhost:8080/AssureIDService/Document/{{instance_id}}/Image?side=back&light=0
+
+{
+  "front": {},
+  "back": {},
+  "result": {
+    "ognlExpression": "#this.alerts.{? #this.key==\"2D Barcode Content\"}[0].result=-10"
+  }
 }
 
 ### Get Result

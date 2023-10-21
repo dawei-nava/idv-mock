@@ -12,7 +12,7 @@ import com.github.tomakehurst.wiremock.store.files.FileSourceBlobStore;
 import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
 import com.navapbc.fciv.login.mock.model.DocAuthResponse;
-import com.navapbc.fciv.login.mock.model.acuant.ImagePayload;
+import com.navapbc.fciv.login.mock.model.acuant.ResultPayload;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.ResponseTransformer;
 import com.navapbc.fciv.login.mock.util.SpringContext;
 import java.util.HashMap;
@@ -53,11 +53,15 @@ public class GetResultResponseDefinitionTransformer implements ResponseDefinitio
       return new ResponseDefinitionBuilder().withStatus(500).build();
     }
     String templateContent = new String(templateData.get());
-    String frontImage =
-        (String) this.contextManager.getState(getInstanceId(request.getUrl()), "front_image");
-    LOGGER.debug("front Image: {}", frontImage);
+    String instanceId = getInstanceId(request.getUrl());
+    LOGGER.debug("instance id: {}", instanceId);
+
+    String front = (String) this.contextManager.getState(instanceId, "front");
+    LOGGER.debug("Front:", front);
+    String expectedResult = (String) this.contextManager.getState(instanceId, "result");
+    LOGGER.debug("result payload: {}", expectedResult);
     try {
-      ImagePayload imagePayload = mapper.readValue(frontImage, ImagePayload.class);
+      ResultPayload imagePayload = mapper.readValue(expectedResult, ResultPayload.class);
       int fixedDelays = imagePayload.getFixedDelays();
       int status = imagePayload.getHttpStatus();
       HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(status == 0 ? 200 : status);
