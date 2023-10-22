@@ -3,7 +3,9 @@ package com.navapbc.fciv.login.mock.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navapbc.fciv.login.acuant.AcuantResponse;
+import com.navapbc.fciv.login.mock.model.acuant.AssureIDMockRequestImage;
 import com.navapbc.fciv.login.mock.model.acuant.ImagePayload;
+import com.navapbc.fciv.login.mock.model.acuant.ResultPayload;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -36,8 +38,10 @@ public class AcuantImageUploadUtil {
     // post front side
     String postFrontImageUrl =
         baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=front&light=0";
-    ImagePayload payload = new ImagePayload();
-    payload.setOgnlExpression(oglnExpression);
+    AssureIDMockRequestImage payload = new AssureIDMockRequestImage();
+    ResultPayload resultPayload = new ResultPayload();
+    payload.setResult(resultPayload);
+    resultPayload.setOgnlExpression(oglnExpression);
     request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
     restTemplate.postForObject(postFrontImageUrl, request, String.class);
     // post back side
@@ -63,8 +67,10 @@ public class AcuantImageUploadUtil {
     // post front side
     String postFrontImageUrl =
         baseUrl + "/AssureIDService/Document/" + instanceId + "/Image?side=front&light=0";
-    ImagePayload payload = new ImagePayload();
-    payload.setHttpStatus(status);
+    AssureIDMockRequestImage payload = new AssureIDMockRequestImage();
+    ImagePayload imagePayload = new ImagePayload();
+    imagePayload.setHttpStatus(status);
+    payload.setFront(imagePayload);
     try {
       request = new HttpEntity<String>(mapper.writeValueAsString(payload), headers);
       restTemplate.postForObject(postFrontImageUrl, request, String.class);

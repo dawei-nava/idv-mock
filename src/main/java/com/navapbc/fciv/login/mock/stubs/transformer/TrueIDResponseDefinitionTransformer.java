@@ -12,7 +12,7 @@ import com.github.tomakehurst.wiremock.store.files.FileSourceBlobStore;
 import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.jayway.jsonpath.JsonPath;
 import com.navapbc.fciv.login.mock.model.DocAuthResponse;
-import com.navapbc.fciv.login.mock.model.acuant.ImagePayload;
+import com.navapbc.fciv.login.mock.model.acuant.ResultPayload;
 import com.navapbc.fciv.login.mock.services.acuant.scenarios.ResponseTransformer;
 import com.navapbc.fciv.login.mock.util.SpringContext;
 import com.navapbc.fciv.login.trueid.TrueIDResponse;
@@ -57,7 +57,7 @@ public class TrueIDResponseDefinitionTransformer implements ResponseDefinitionTr
       String frontBase64 = JsonPath.parse(body).read("$.Document.Front");
       String front = new String(Base64.decodeBase64(frontBase64));
       LOGGER.debug("Front image payload : {}", front);
-      ImagePayload imagePayload = mapper.readValue(front, ImagePayload.class);
+      ResultPayload imagePayload = mapper.readValue(front, ResultPayload.class);
       int fixedDelays = imagePayload.getFixedDelays();
       int status = imagePayload.getHttpStatus();
       HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(status == 0 ? 200 : status);

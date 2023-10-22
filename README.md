@@ -77,15 +77,26 @@ The specification of the json file looks like the following:
 
 ```json
 {
-  "httpStatus": 500|438|439|440,
-  "ognlExpression": "",
-  "ognlExpressions": [
-    "xxxx",
-    "yyyy"
-  ],
-  "fixedDelays": 1000
+  "front" : {
+    "httpStatus": 200|500|438|439|440,
+    "fixedDelays": 1000
+  },
+  "back" : {
+    "httpStatus": 200|500|438|439|440,
+    "fixedDelays": 1000
+  },
+  "result": {
+    "httpStatus": 500|438|439|440,
+    "ognlExpression": "",
+    "ognlExpressions": [
+      "xxxx",
+      "yyyy"
+    ],
+    "fixedDelays": 1000
+  }
 }
 ```
+The "front", "back" and "result" parts specify respose configurations for the three service calls.
 
 The `ognlExpression` is used to modify a template response using OGNL language. The OGLN language provides the capability not only to navigate the object graph but also to change it. 
 

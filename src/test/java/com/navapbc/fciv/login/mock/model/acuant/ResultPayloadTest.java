@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-public class ImagePayloadTest {
+public class ResultPayloadTest {
 
   private ObjectMapper mapper = new ObjectMapper();
 
@@ -15,6 +15,6 @@ public class ImagePayloadTest {
             + "  \"ognlExpression\" : \"#this.images[0].verticalResolution=10, #this.result=2\"\n"
             + "}";
     System.out.println(input);
-    ImagePayload payload = mapper.readValue(input, ImagePayload.class);
+    ResultPayload payload = mapper.readValue(input, ResultPayload.class);
   }
 }

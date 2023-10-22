@@ -9,7 +9,11 @@
     }
   },
   "response": {
-    "status": 200
+    "status": 220,
+    "transformers": ["acuant-image-upload-transformer"],
+    "transformerParameters": {
+      "side": "front"
+    }
   },
   "serveEventListeners": [
     {
@@ -18,8 +22,9 @@
         "context": "{{request.pathSegments.[2]}}",
         "state": {
           "instanceId": "{{request.pathSegments.[2]}}",
-          "front_image": "{{{request.body}}}",
-          "back_image": "{{{ state context=request.pathSegments.[2] property='back_image' default='' }}}"
+          "front_image": "{{{ jsonPath request.body '$.front' }}}",
+          "back_image": "{{{ state context=request.pathSegments.[2] property='back_image' default='' }}}",
+          "result": "{{{ jsonPath request.body '$.result' }}}"
         }
       }
     }
