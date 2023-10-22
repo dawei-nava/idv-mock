@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageRequestResponseDefinitionTransformer implements ResponseDefinitionTransformerV2 {
 
-  public static String NAME = "acuant-image-upload-transformer";
+  public static final String NAME = "acuant-image-upload-transformer";
 
   @Autowired ObjectMapper mapper;
 
@@ -34,7 +34,8 @@ public class ImageRequestResponseDefinitionTransformer implements ResponseDefini
     try {
       requestImage = mapper.readValue(body, AssureIDMockRequestImage.class);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
+      LOGGER.error("Failed to parse input body: {}", body);
+      return new ResponseDefinitionBuilder().withStatus(500).build();
     }
     ImagePayload imagePayload = null;
     if ("front".equalsIgnoreCase(side)) {
