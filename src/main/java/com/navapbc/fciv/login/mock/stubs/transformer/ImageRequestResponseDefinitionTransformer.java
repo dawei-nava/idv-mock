@@ -52,7 +52,7 @@ public class ImageRequestResponseDefinitionTransformer implements ResponseDefini
 
     return new ResponseDefinitionBuilder()
         .withStatus(httpStatusCode.value())
-        .withFixedDelay(delay < 0 ? 0 : delay)
+        .withFixedDelay(delay <= 0 ? null : Integer.valueOf(delay))
         .build();
   }
 
