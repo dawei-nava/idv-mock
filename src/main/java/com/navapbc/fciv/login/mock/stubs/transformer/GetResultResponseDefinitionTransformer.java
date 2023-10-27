@@ -74,6 +74,10 @@ public class GetResultResponseDefinitionTransformer implements ResponseDefinitio
             .build();
       }
       String ognlExpression = imagePayload.getOgnlExpression();
+      String[] ognlExpressions = imagePayload.getOgnlExpressions();
+      if (ognlExpressions != null && ognlExpressions.length > 0) {
+        ognlExpression = String.join(",", ognlExpressions);
+      }
       LOGGER.debug("OGNL expression state: {}", ognlExpression);
       AcuantResponse template = mapper.readValue(templateContent, AcuantResponse.class);
       try {
