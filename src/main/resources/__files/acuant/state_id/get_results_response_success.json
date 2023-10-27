@@ -14,7 +14,7 @@
       "RegionReferences": [
         "b684bbda-bed3-4ffa-9dd9-99d9711830ea"
       ],
-      "Result": 2
+      "Result": 1
     },
     {
       "Actions": "Check the visible (white) document image to verify the presence of the security feature.  Possible reasons this test may fail for a valid document may be that the document was moving during the capture, or the document may be excessively worn or damaged.",
@@ -30,7 +30,7 @@
       "RegionReferences": [
         "44cb9c08-71d1-4ba6-ab11-9707f39da5a2"
       ],
-      "Result": 2
+      "Result": 1
     },
     {
       "Actions": "Verify that the data extracted from the 2D barcode appears to be correct and matches the data present on the front of the document.",
